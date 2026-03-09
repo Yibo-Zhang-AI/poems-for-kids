@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌸 小小诗人学古诗 🌸</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 50%, #fd79a8 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* 标题区 */
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            color: #e17055;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            color: #636e72;
+        }
+        
+        /* 目录 */
+        .toc {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .toc h2 {
+            color: #6c5ce7;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .toc-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .toc-item {
+            background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+        }
+        
+        .toc-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
+        }
+        
+        /* 诗歌卡片 */
+        .poem-card {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .poem-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #fd79a8, #fdcb6e, #6c5ce7, #00b894);
+        }
+        
+        .poem-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            border-radius: 50%;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .poem-title {
+            font-size: 2em;
+            color: #2d3436;
+            margin-bottom: 10px;
+        }
+        
+        .poem-author {
+            font-size: 1.1em;
+            color: #636e72;
+            margin-bottom: 25px;
+        }
+        
+        .poem-image {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .poem-content {
+            font-size: 1.6em;
+            line-height: 2;
+            color: #2d3436;
+            text-align: center;
+            margin: 25px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff5f5 0%, #fff9e6 100%);
+            border-radius: 15px;
+        }
+        
+        .poem-line {
+            margin: 10px 0;
+        }
+        
+        .simple-explain {
+            background: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            padding: 20px;
+            border-radius: 0 15px 15px 0;
+            margin-top: 20px;
+        }
+        
+        .simple-explain h3 {
+            color: #2e7d32;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        
+        .simple-explain p {
+            color: #388e3c;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        
+        .fun-fact {
+            background: #fff3e0;
+            border-left: 5px solid #ff9800;
+            padding: 20px;
+            border-radius: 0 15px 15px 0;
+            margin-top: 15px;
+        }
+        
+        .fun-fact h3 {
+            color: #e65100;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        
+        .fun-fact p {
+            color: #f57c00;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        
+        /* 返回顶部 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.5em;
+            box-shadow: 0 5px 20px rgba(253, 121, 168, 0.4);
+            transition: transform 0.3s;
+        }
+        
+        .back-to-top:hover {
+            transform: scale(1.1);
+        }
+        
+        /* 装饰元素 */
+        .decoration {
+            text-align: center;
+            font-size: 2em;
+            margin: 20px 0;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .poem-title {
+                font-size: 1.5em;
+            }
+            
+            .poem-content {
+                font-size: 1.3em;
+            }
+            
+            .poem-image {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 标题 -->
+        <div class="header" id="top">
+            <h1>🌸 小小诗人学古诗 🌸</h1>
+            <p>和爸爸妈妈一起，走进美丽的诗词世界</p>
+            <div class="decoration">✨ 📚 ✨</div>
+        </div>
+        
+        <!-- 目录 -->
+        <div class="toc">
+            <h2>📖 今天要学的诗</h2>
+            <div class="toc-list">
+                <a href="#poem1" class="toc-item">1. 黄鹤楼 🏯</a>
+                <a href="#poem2" class="toc-item">2. 忆江南 🌅</a>
+                <a href="#poem3" class="toc-item">3. 寻隐者不遇 ⛰️</a>
+                <a href="#poem4" class="toc-item">4. 龟虽寿 🐢</a>
+                <a href="#poem5" class="toc-item">5. 相思 ❤️</a>
+            </div>
+        </div>
+        
+        <!-- 诗歌 1: 黄鹤楼 -->
+        <div class="poem-card" id="poem1">
+            <span class="poem-number">1</span>
+            <h2 class="poem-title">黄鹤楼</h2>
+            <p class="poem-author">唐 · 崔颢</p>
+            
+            <img src="https://images.unsplash.com/photo-1548919973-5cef591cdbc9?w=500&h=300&fit=crop" 
+                 alt="黄鹤楼" class="poem-image">
+            
+            <div class="poem-content">
+                <p class="poem-line">昔人已乘黄鹤去，</p>
+                <p class="poem-line">此地空余黄鹤楼。</p>
+                <p class="poem-line">黄鹤一去不复返，</p>
+                <p class="poem-line">白云千载空悠悠。</p>
+            </div>
+            
+            <div class="simple-explain">
+                <h3>🌟 小朋友能听懂的话：</h3>
+                <p>很久以前，有个仙人骑着黄鹤飞走了，只留下这座黄鹤楼。黄鹤再也没有回来，只有白云一年又一年地飘在天上。就像你去了游乐园，玩得很开心，但时间过去了就回不来了。</p>
+            </div>
+            
+            <div class="fun-fact">
+                <h3>🎈 有趣小知识：</h3>
+                <p>黄鹤楼是中国四大名楼之一，在武汉。这首诗太有名了，连李白都说"眼前有景道不得，崔颢题诗在上头"，意思是崔颢写得这么好，我都不好意思再写了！</p>
+            </div>
+        </div>
+        
+        <!-- 诗歌 2: 忆江南 -->
+        <div class="poem-card" id="poem2">
+            <span class="poem-number">2</span>
+            <h2 class="poem-title">忆江南</h2>
+            <p class="poem-author">唐 · 白居易</p>
+            
+            <img src="https://images.unsplash.com/photo-1537531383496-f4749b8032cf?w=500&h=300&fit=crop" 
+                 alt="江南水乡" class="poem-image">
+            
+            <div class="poem-content">
+                <p class="poem-line">江南好，</p>
+                <p class="poem-line">风景旧曾谙。</p>
+                <p class="poem-line">日出江花红胜火，</p>
+                <p class="poem-line">春来江水绿如蓝。</p>
+                <p class="poem-line">能不忆江南？</p>
+            </div>
+            
+            <div class="simple-explain">
+                <h3>🌟 小朋友能听懂的话：</h3>
+                <p>江南的风景真好，我以前去过很熟悉。太阳出来的时候，江边的花朵比火还要红；春天来了，江水绿得像蓝草一样。这么美的地方，怎么能不想念呢？</p>
+            </div>
+            
+            <div class="fun-fact">
+                <h3>🎈 有趣小知识：</h3>
+                <p>白居易是唐朝大诗人，他曾经在杭州做过官，特别喜欢江南的美景。"江南"就是现在的苏州、杭州一带，那里有小桥流水、白墙黑瓦，像画一样美！</p>
+            </div>
+        </div>
+        
+        <!-- 诗歌 3: 寻隐者不遇 -->
+        <div class="poem-card" id="poem3">
+            <span class="poem-number">3</span>
+            <h2 class="poem-title">寻隐者不遇</h2>
+            <p class="poem-author">唐 · 贾岛</p>
+            
+            <img src="https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=500&h=300&fit=crop" 
+                 alt="松树下" class="poem-image">
+            
+            <div class="poem-content">
+                <p class="poem-line">松下问童子，</p>
+                <p class="poem-line">言师采药去。</p>
+                <p class="poem-line">只在此山中，</p>
+                <p class="poem-line">云深不知处。</p>
+            </div>
+            
+            <div class="simple-explain">
+                <h3>🌟 小朋友能听懂的话：</h3>
+                <p>诗人在松树下问一个小朋友："你师父在家吗？"小朋友说："师父去山上采药了，就在这座山里，但是云雾太深了，不知道具体在哪里。"就像你捉迷藏时找不到小伙伴一样！</p>
+            </div>
+            
+            <div class="fun-fact">
+                <h3>🎈 有趣小知识：</h3>
+                <p>贾岛是个很爱"抠字眼"的诗人。传说他写这首诗时，纠结用"推"还是"敲"，最后选了"敲"，这就是"推敲"这个词的来历！这首诗只有20个字，却讲了一个完整的故事。</p>
+            </div>
+        </div>
+        
+        <!-- 诗歌 4: 龟虽寿 -->
+        <div class="poem-card" id="poem4">
+            <span class="poem-number">4</span>
+            <h2 class="poem-title">龟虽寿（节选）</h2>
+            <p class="poem-author">东汉 · 曹操</p>
+            
+            <img src="https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?w=500&h=300&fit=crop" 
+                 alt="老马" class="poem-image">
+            
+            <div class="poem-content">
+                <p class="poem-line">老骥伏枥，</p>
+                <p class="poem-line">志在千里。</p>
+                <p class="poem-line">烈士暮年，</p>
+                <p class="poem-line">壮心不已。</p>
+            </div>
+            
+            <div class="simple-explain">
+                <h3>🌟 小朋友能听懂的话：</h3>
+                <p>年老的千里马虽然趴在马槽里，但它的心还想跑千里远。有抱负的人即使年纪大了，雄心壮志也不会停止。就像爷爷奶奶虽然年纪大了，但还在学习新东西，精神可嘉！</p>
+            </div>
+            
+            <div class="fun-fact">
+                <h3>🎈 有趣小知识：</h3>
+                <p>曹操不仅是军事家、政治家，还是很厉害的诗人！这首诗是他53岁时写的，他说自己虽然年纪大了，但还想干一番大事业。"老骥伏枥，志在千里"现在常用来鼓励人要有远大志向！</p>
+            </div>
+        </div>
+        
+        <!-- 诗歌 5: 相思 -->
+        <div class="poem-card" id="poem5">
+            <span class="poem-number">5</span>
+            <h2 class="poem-title">相思</h2>
+            <p class="poem-author">唐 · 王维</p>
+            
+            <img src="https://images.unsplash.com/photo-1562690868-60bbe7293e94?w=500&h=300&fit=crop" 
+                 alt="红豆" class="poem-image">
+            
+            <div class="poem-content">
+                <p class="poem-line">红豆生南国，</p>
+                <p class="poem-line">春来发几枝。</p>
+                <p class="poem-line">愿君多采撷，</p>
+                <p class="poem-line">此物最相思。</p>
+            </div>
+            
+            <div class="simple-explain">
+                <h3>🌟 小朋友能听懂的话：</h3>
+                <p>红豆生长在南方，春天来了，它长出多少新枝条呢？希望你多摘一些红豆，因为它最能代表思念之情。就像你想好朋友时，会送他一颗糖表示想念一样！</p>
+            </div>
+            
+            <div class="fun-fact">
+                <h3>🎈 有趣小知识：</h3>
+                <p>王维被称为"诗佛"，他的诗像画一样美！红豆也叫"相思豆"，传说古代有个人死在边疆，他的妻子思念他，哭死在树下，变成了红豆。所以红豆代表思念，情人节送红豆也很浪漫哦！</p>
+            </div>
+        </div>
+        
+        <!-- 结尾 -->
+        <div class="header" style="margin-top: 50px;">
+            <h1>🎉 恭喜你学完5首诗！</h1>
+            <p>你真棒！明天我们再一起学习新的古诗吧！</p>
+            <div class="decoration">🌟 🌈 🌟</div>
+        </div>
+    </div>
+    
+    <!-- 返回顶部 -->
+    <a href="#top" class="back-to-top">⬆️</a>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "poems-for-kids",
+  "version": "1.0.0",
+  "description": "🌸 小小诗人学古诗 - 适合6岁孩子的古诗词学习网站",
+  "main": "index.html",
+  "scripts": {
+    "deploy": "gh-pages -d ."
+  },
+  "keywords": ["poems", "kids", "chinese", "education"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "gh-pages": "^6.1.1"
+  }
+}
